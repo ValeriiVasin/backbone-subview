@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "postinstall": "npm install && npm run dist && rm -rf node_modules"
+  }
+}
