@@ -1,2 +1,2 @@
 # About
-Backbone architecture experiment to handle subviews.
+Subview manager for backbone.

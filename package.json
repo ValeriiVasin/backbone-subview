@@ -1,19 +1,21 @@
 {
-  "name": "BackboneMixins",
+  "name": "backbone-subview",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backbone mixin for managing subviews",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run"
+    "test": "./node_modules/karma/bin/karma start --single-run",
+    "dist": "node ./node_modules/babel/bin/babel/index --modules umd src/subview.js > dist/subview.js"
   },
   "author": "Valerii Vasin",
   "license": "ISC",
   "dependencies": {
-    "backbone": "^1.1.2",
-    "jquery": "^2.1.3",
-    "underscore": "^1.8.2"
   },
   "devDependencies": {
+    "backbone": "^1.1.2",
+    "jquery": "^2.1.3",
+    "underscore": "^1.8.2",
+    "babel": "^4.7.16",
     "babel-core": "^4.7.4",
     "babel-loader": "^4.1.0",
     "jasmine-core": "^2.2.0",
@@ -22,5 +24,13 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-webpack": "^1.5.0",
     "webpack": "^1.7.2"
-  }
+  },
+  "keywords": [
+    "backbone",
+    "mixin",
+    "subview",
+    "view",
+    "channel",
+    "event"
+  ]
 }
