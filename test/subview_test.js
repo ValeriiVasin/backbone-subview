@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import ChildMixin from '../src/ChildMixin';
+import ChildMixin from '../src/subview';
 
 describe('ChildMixin', function () {
 

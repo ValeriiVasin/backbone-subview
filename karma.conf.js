@@ -4,6 +4,8 @@ module.exports = function(config) {
 
     frameworks: ['jasmine'],
 
+    reporters: ['dots'],
+
     files: [
       'test/**/*_test.js'
     ],
