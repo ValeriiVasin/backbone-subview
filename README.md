@@ -89,7 +89,7 @@ Using `bubbleEvents` allows you to listen to child events without extra pain. Ch
 
 It allows you to avoid event namespaces soup and makes views more isolated.
 
-**Notice:** Bubble events handlers will be automatically bound to `this` as usual Backbone events.
+**Notice:** Bubble events handlers will be automatically bound to `this` as usual Backbone events handlers.
 **Notice:** You should create all your subviews with `this.initSubview()`, otherwise child/parent channel will be lost and communication will not be possible.
 
 ## destroySubviews([Subview:Backbone.View])
