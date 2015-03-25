@@ -12,11 +12,6 @@ export default {
       params = {};
     }
 
-    // find selector inside parent view
-    if (typeof params.el === 'string') {
-      params.el = this.$(params.el);
-    }
-
     let subview = new View(params);
 
     this._createChannel(subview);

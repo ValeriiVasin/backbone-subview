@@ -41,12 +41,6 @@ describe('ChildMixin', function () {
       it('should return instance of subview', () => {
         expect(subview instanceof SubView).toBe(true);
       });
-
-      it('should instantiate inside parent view if .el is a string', () => {
-        spyOn(view, '$');
-        subview = view.initSubview(SubView, { el: '.some-selector' });
-        expect(view.$).toHaveBeenCalledWith('.some-selector');
-      });
     });
 
     describe('#destroySubviews', () => {

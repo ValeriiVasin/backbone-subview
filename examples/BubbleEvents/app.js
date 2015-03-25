@@ -1,9 +1,9 @@
 import Backbone from 'backbone';
 import $ from 'jquery';
 import _ from 'underscore';
-import ChildMixin from '../../src/ChildMixin';
+import Subview from '../../src/subview';
 
-let View = Backbone.View.extend(ChildMixin);
+let View = Backbone.View.extend(Subview);
 
 let PhotoModel = Backbone.Model;
 
@@ -77,7 +77,7 @@ let AppView = View.extend({
   initialize() {
     this.infoModel = new Backbone.Model();
     this.infoView = this.initSubview(InfoView, {
-      el: '#info',
+      el: this.$('#info'),
       model: this.infoModel
     });
 
@@ -87,7 +87,7 @@ let AppView = View.extend({
         let collection = new PhotoCollection(photos);
 
         this.initSubview(CollectionView, {
-          el: '#photos',
+          el: this.$('#photos'),
           collection: collection
         }).render();
       });
