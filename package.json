@@ -4,8 +4,8 @@
   "description": "Backbone mixin for managing subviews",
   "main": "dist/subview.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run",
-    "dist": "./node_modules/babel/bin/babel/index --modules umd src/subview.js > dist/subview.js",
+    "test": "node ./node_modules/karma/bin/karma start --single-run",
+    "dist": "node ./node_modules/babel/bin/babel/index --modules umd src/subview.js > dist/subview.js",
     "prepublish": "npm run dist"
   },
   "author": "Valerii Vasin",
