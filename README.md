@@ -1,4 +1,6 @@
 # Backbone-subview - Simple subview manager
+[![Build Status](https://travis-ci.org/ValeriiVasin/backbone-subview.svg?branch=master)](https://travis-ci.org/ValeriiVasin/backbone-subview)
+
 
 # Benefits
 * Automatically cleans up subviews when a parent view is removed
