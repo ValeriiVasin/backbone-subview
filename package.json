@@ -1,6 +1,6 @@
 {
   "name": "backbone-subview",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Backbone mixin for managing subviews",
   "main": "dist/subview.js",
   "scripts": {
@@ -11,8 +11,7 @@
   "author": "Valerii Vasin",
   "license": "ISC",
   "homepage": "https://github.com/ValeriiVasin/backbone-subview",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "backbone": "^1.1.2",
     "jquery": "^2.1.3",
