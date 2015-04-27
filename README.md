@@ -60,7 +60,7 @@ var ListView = View.extend({
 
 Available `params`:
 
-`params.remove`: true|false|'content' - remove strategy that will be used when `destroySubviews` will be called. Default - **true**.
+`params.remove`: `true|false|'content'` - remove strategy that will be used to remove subview (when `.remove()` method of the subview or `.destroySubviews()` of the parent view is called). Default - **true**.
 
 `true` - usual view .remove() strategy - undelegates events and removes view root element. Should be used when subview creates own root element.
 
