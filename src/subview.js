@@ -13,12 +13,11 @@ export default {
       options = {};
     }
 
-    if (_.isUndefined(params)) {
-      params = {};
-    }
-
     let subview = new View(options);
-    subview.__subviewParams = params;
+
+    if (!_.isUndefined(params)) {
+      subview.__subviewParams = params;
+    }
 
     this._createChannel(subview);
 
