@@ -29,8 +29,12 @@ var View = Backbone.View.extend(BackboneSubview);
 module.exports = View;
 ```
 
-## intiSubview(SubView:Backbone.View, options:Object)
-Instantiate subviews inside the view using `this.initSubview(SubView, options)`, where `Subview` - child view you want to instantiate, `options` - usual view options like `el`, `model`, `collection` etc.
+## intiSubview(SubView:Backbone.View[, options:Object][, params: Object])
+Instantiate subviews inside the view, where:
+
+* `SubView` - child view
+* `options` - usual Backbone.View options, e.g. `el`, `model`, `collection` etc.
+* `params` - subview initialization params, see below
 
 ```js
 // file: ListView.js
@@ -50,6 +54,37 @@ var ListView = View.extend({
           .render().el
       );
     }, this);
+  }
+});
+```
+
+Available `params`:
+
+`params.remove`: true|false|'content' - remove strategy that will be used when `destroySubviews` will be called. Default - **true**.
+
+`true` - usual view .remove() strategy - undelegates events and removes view root element. Should be used when subview creates own root element.
+
+`false` - undelegates events and **does not** affect layout. Should be used if subview, for example, - just listens to events on existed layout.
+
+`'content'` - undelegates events and destroy content inside of root view element. Root view element **will not** be removed. Should be used when subview is initialized inside the placeholder inside of the parent view and after subview is destroyed this placeholder should not be removed, for example, to allow render subview again.
+
+```js
+var ProfileHeaderView = require('./ProfileHeaderView');
+var KeyNavigationView = require('./KeyNavigation');
+
+var ProfileView = View.extend({
+  render: function() {
+
+    // placeholder for profile header view is already on the page
+    // cleanup only content after .destroySubviews() will be called
+    this.initSubview(ProfileHeaderView, {
+      el: this.$('.js-profile-header')
+    }, { remove: 'content' }).render();
+
+    // KeyNavigationView is applied for whole profile view and just tracks
+    // keypresses. It just adds events to provided element and should not affect
+    // layout after remove
+    this.initSubview(KeyNavigationView, { el: this.el }, { remove: false });
   }
 });
 ```

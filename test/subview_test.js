@@ -41,6 +41,16 @@ describe('ChildMixin', function () {
       it('should return instance of subview', () => {
         expect(subview instanceof SubView).toBe(true);
       });
+
+      it('should provide default options if they are not provided', () => {
+        view.initSubview(SubView);
+        expect(subview.initialize).toHaveBeenCalledWith({});
+      });
+
+      it('should provide default options if they are set to `null`', () => {
+        view.initSubview(SubView, null, { remove: false });
+        expect(subview.initialize).toHaveBeenCalledWith({});
+      });
     });
 
     describe('#destroySubviews', () => {
@@ -95,6 +105,73 @@ describe('ChildMixin', function () {
       it('should remove reference from parent view if subview was removed directly', () => {
         subview.remove();
         expect(subviewCount(view)).toBe(0);
+      });
+
+      describe('Subview remove strategies', () => {
+        let View;
+        let view;
+        let subview;
+
+        beforeEach(() => {
+          View = Backbone.View.extend(ChildMixin);
+          view = new View();
+        });
+
+        it('should work if no remove options provided', () => {
+          subview = view.initSubview(View);
+
+          spyOn(subview, 'destroySubviews');
+          spyOn(Backbone.View.prototype, 'remove');
+
+          view.destroySubviews();
+
+          expect(subview.destroySubviews).toHaveBeenCalled();
+          expect(Backbone.View.prototype.remove).toHaveBeenCalled();
+        });
+
+        it('should work if `remove` option set to `true`', () => {
+          subview = view.initSubview(View, {}, { remove: true });
+
+          spyOn(subview, 'destroySubviews');
+          spyOn(Backbone.View.prototype, 'remove');
+
+          view.destroySubviews();
+
+          expect(subview.destroySubviews).toHaveBeenCalled();
+          expect(Backbone.View.prototype.remove).toHaveBeenCalled();
+        });
+
+        it('should work if `remove` option set to `false`', () => {
+          subview = view.initSubview(View, {}, { remove: false });
+
+          spyOn(subview, 'destroySubviews');
+          spyOn(Backbone.View.prototype, 'remove');
+          spyOn(Backbone.View.prototype, 'undelegateEvents');
+          spyOn(subview.$el, 'empty');
+
+          view.destroySubviews();
+
+          expect(subview.destroySubviews).toHaveBeenCalled();
+          expect(Backbone.View.prototype.remove).not.toHaveBeenCalled();
+          expect(Backbone.View.prototype.undelegateEvents).toHaveBeenCalled();
+          expect(subview.$el.empty).not.toHaveBeenCalled();
+        });
+
+        it('should work if `remove` option set to `"content"`', function() {
+          subview = view.initSubview(View, {}, { remove: 'content' });
+
+          spyOn(subview, 'destroySubviews');
+          spyOn(Backbone.View.prototype, 'remove');
+          spyOn(Backbone.View.prototype, 'undelegateEvents');
+          spyOn(subview.$el, 'empty');
+
+          view.destroySubviews();
+
+          expect(subview.destroySubviews).toHaveBeenCalled();
+          expect(Backbone.View.prototype.remove).not.toHaveBeenCalled();
+          expect(Backbone.View.prototype.undelegateEvents).toHaveBeenCalled();
+          expect(subview.$el.empty).toHaveBeenCalled();
+        });
       });
     });
   });

@@ -4,15 +4,21 @@ import _ from 'underscore';
 export default {
   /**
    * Instantiate subview within current view
-   * @param  {Backbone.View} View Subview
-   * @param  {Object} params    View params
+   * @param  {Backbone.View}    View Subview
+   * @param  {Object} [options]      Backbone.View options for SubView
+   * @param  {Object} [params]       Subview params
    */
-  initSubview(View, params) {
-    if (typeof params === 'undefined') {
+  initSubview(View, options, params) {
+    if (_.isNull(options) || _.isUndefined(options)) {
+      options = {};
+    }
+
+    if (_.isUndefined(params)) {
       params = {};
     }
 
-    let subview = new View(params);
+    let subview = new View(options);
+    subview.__subviewParams = params;
 
     this._createChannel(subview);
 
@@ -89,9 +95,31 @@ export default {
     });
   },
 
+  /**
+   * Remove subview
+   */
   remove() {
     this.destroySubviews();
     this.trigger('__remove__');
+
+    // parent view could not have subview params, but shares .remove() method
+    if (this.__subviewParams) {
+
+      // remove: 'content' - empty content
+      if (this.__subviewParams.remove === 'content') {
+        this.undelegateEvents();
+        this.$el.empty();
+        return;
+      }
+
+      // remove: false - do not touch content
+      if (this.__subviewParams.remove === false) {
+        this.undelegateEvents();
+        return;
+      }
+    }
+
+    // Default remove
     Backbone.View.prototype.remove.apply(this, arguments);
   }
 };
