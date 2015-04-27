@@ -16,17 +16,22 @@
   module.exports = {
     /**
      * Instantiate subview within current view
-     * @param  {Backbone.View} View Subview
-     * @param  {Object} params    View params
+     * @param  {Backbone.View}    View Subview
+     * @param  {Object} [options]      Backbone.View options for SubView
+     * @param  {Object} [params]       Subview params
      */
-    initSubview: function initSubview(View, params) {
+    initSubview: function initSubview(View, options, params) {
       var _this = this;
 
-      if (typeof params === "undefined") {
-        params = {};
+      if (_.isNull(options) || _.isUndefined(options)) {
+        options = {};
       }
 
-      var subview = new View(params);
+      var subview = new View(options);
+
+      if (!_.isUndefined(params)) {
+        subview.__subviewParams = params;
+      }
 
       this._createChannel(subview);
 
@@ -107,9 +112,31 @@
       });
     },
 
+    /**
+     * Remove subview
+     */
     remove: function remove() {
       this.destroySubviews();
       this.trigger("__remove__");
+
+      // parent view could not have subview params, but shares .remove() method
+      if (this.__subviewParams) {
+
+        // remove: 'content' - empty content
+        if (this.__subviewParams.remove === "content") {
+          this.undelegateEvents();
+          this.$el.empty();
+          return;
+        }
+
+        // remove: false - do not touch content
+        if (this.__subviewParams.remove === false) {
+          this.undelegateEvents();
+          return;
+        }
+      }
+
+      // Default remove
       Backbone.View.prototype.remove.apply(this, arguments);
     }
   };
