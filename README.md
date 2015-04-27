@@ -66,7 +66,7 @@ Available `params`:
 
 `false` - undelegates events and **does not** affect layout. Should be used if subview, for example, - just listens to events on existed layout.
 
-`'content'` - undelegates events and destroy content inside of root view element. Root view element **will not** be removed. Should be used when subview is initialized inside the placeholder inside of the parent view and after subview is destroyed this placeholder should not be removed, for example, to allow render subview again.
+`'content'` - undelegates events and destroy content inside of root view element. Root view element **will not** be removed. Should be used when subview is initialized in the placeholder inside of the parent view, which should not be removed after subview is. For example, to allow render subview again.
 
 ```js
 var ProfileHeaderView = require('./ProfileHeaderView');
