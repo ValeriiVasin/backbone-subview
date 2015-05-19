@@ -127,8 +127,28 @@ It allows you to avoid event namespaces soup and makes views more isolated.
 **Notice:** Bubble events handlers will be automatically bound to `this` as usual Backbone events handlers.
 **Notice:** You should create all your subviews with `this.initSubview()`, otherwise child/parent channel will be lost and communication will not be possible.
 
-## destroySubviews([Subview:Backbone.View])
+## destroySubviews([Backbone.View|Array(Backbone.View)])
 You could manually destroy all instantiated subviews:
+
+```js
+this.destroySubviews();
+```
+
+or exact subview:
+
+```js
+this.destroySubviews(this._subview.popover);
+```
+
+or few subviews:
+
+```js
+this.destroySubviews([this._subview.popover, this._subview.profile]);
+```
+
+During the destroy `.remove()` method will be called for each subview that is going to be destroyed.
+
+Example:
 
 ```js
 var ItemView = require('./ItemView');
