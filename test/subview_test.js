@@ -147,6 +147,7 @@ describe('ChildMixin', function () {
           spyOn(subview, 'destroySubviews');
           spyOn(Backbone.View.prototype, 'remove');
           spyOn(Backbone.View.prototype, 'undelegateEvents');
+          spyOn(Backbone.View.prototype, 'stopListening');
           spyOn(subview.$el, 'empty');
 
           view.destroySubviews();
@@ -154,6 +155,7 @@ describe('ChildMixin', function () {
           expect(subview.destroySubviews).toHaveBeenCalled();
           expect(Backbone.View.prototype.remove).not.toHaveBeenCalled();
           expect(Backbone.View.prototype.undelegateEvents).toHaveBeenCalled();
+          expect(Backbone.View.prototype.stopListening).toHaveBeenCalled();
           expect(subview.$el.empty).not.toHaveBeenCalled();
         });
 
@@ -163,6 +165,7 @@ describe('ChildMixin', function () {
           spyOn(subview, 'destroySubviews');
           spyOn(Backbone.View.prototype, 'remove');
           spyOn(Backbone.View.prototype, 'undelegateEvents');
+          spyOn(Backbone.View.prototype, 'stopListening');
           spyOn(subview.$el, 'empty');
 
           view.destroySubviews();
@@ -170,6 +173,7 @@ describe('ChildMixin', function () {
           expect(subview.destroySubviews).toHaveBeenCalled();
           expect(Backbone.View.prototype.remove).not.toHaveBeenCalled();
           expect(Backbone.View.prototype.undelegateEvents).toHaveBeenCalled();
+          expect(Backbone.View.prototype.stopListening).toHaveBeenCalled();
           expect(subview.$el.empty).toHaveBeenCalled();
         });
       });

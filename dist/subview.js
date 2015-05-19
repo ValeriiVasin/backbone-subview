@@ -1,17 +1,23 @@
-(function (factory) {
-  if (typeof define === "function" && define.amd) {
-    define(["exports", "module", "backbone", "underscore"], factory);
-  } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-    factory(exports, module, require("backbone"), require("underscore"));
+(function (global, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['exports', 'module', 'backbone', 'underscore'], factory);
+  } else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
+    factory(exports, module, require('backbone'), require('underscore'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, mod, global.Backbone, global._);
+    global.subview = mod.exports;
   }
-})(function (exports, module, _backbone, _underscore) {
-  "use strict";
+})(this, function (exports, module, _backbone, _underscore) {
+  'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
 
-  var Backbone = _interopRequire(_backbone);
+  var _Backbone = _interopRequire(_backbone);
 
-  var _ = _interopRequire(_underscore);
+  var _2 = _interopRequire(_underscore);
 
   module.exports = {
     /**
@@ -23,13 +29,13 @@
     initSubview: function initSubview(View, options, params) {
       var _this = this;
 
-      if (_.isNull(options) || _.isUndefined(options)) {
+      if (_2.isNull(options) || _2.isUndefined(options)) {
         options = {};
       }
 
       var subview = new View(options);
 
-      if (!_.isUndefined(params)) {
+      if (!_2.isUndefined(params)) {
         subview.__subviewParams = params;
       }
 
@@ -37,8 +43,8 @@
 
       // remove reference from parent
       // Notice: .remove() has been already handled
-      this.listenTo(subview, "__remove__", function () {
-        _this.__subviews = _.without(_this.__subviews, subview);
+      this.listenTo(subview, '__remove__', function () {
+        _this.__subviews = _2.without(_this.__subviews, subview);
       });
 
       if (!this.__subviews) {
@@ -55,40 +61,40 @@
       }
 
       if (subview) {
-        this.__subviews = _.without(this.__subviews, subview);
+        this.__subviews = _2.without(this.__subviews, subview);
         subview.remove();
         return;
       }
 
-      _.each(this.__subviews, function (subview) {
+      _2.each(this.__subviews, function (subview) {
         subview.remove();
       });
     },
 
     _setupEventProxy: function _setupEventProxy(subview) {
-      var _this = this;
+      var _this2 = this;
 
-      var current = _.keys(this.bubbleEvents || {});
+      var current = _2.keys(this.bubbleEvents || {});
       var parent = this.__parentBubbleEvents || [];
 
       // listen to subview events and proxy them to parent view
-      _.each(parent, function (eventName) {
-        _this.listenTo(subview, eventName, function () {
+      _2.each(parent, function (eventName) {
+        _this2.listenTo(subview, eventName, function () {
 
           // prepend eventName and trigger
-          var args = _.toArray(arguments);
+          var args = _2.toArray(arguments);
           args.unshift(eventName);
           this.trigger.apply(this, args);
         });
       });
 
       // set internal property
-      subview.__parentBubbleEvents = _.union(current, parent);
+      subview.__parentBubbleEvents = _2.union(current, parent);
 
       // Handle subviews of subview proxies
       // (if they was created during initialization)
       // because during initialization __parentBubbleEvents was not set
-      _.each(subview.__subviews, function (subviewOfSubview) {
+      _2.each(subview.__subviews, function (subviewOfSubview) {
         subview._setupEventProxy(subviewOfSubview);
       });
     },
@@ -102,13 +108,13 @@
      * and after view .remove() it will unsubscribe everything automatically
      */
     _createChannel: function _createChannel(subview) {
-      var _this = this;
+      var _this3 = this;
 
       // setup proxy events
       this._setupEventProxy(subview);
 
-      _.each(this.bubbleEvents, function (methodName, eventName) {
-        _this.listenTo(subview, eventName, _this[methodName]);
+      _2.each(this.bubbleEvents, function (methodName, eventName) {
+        _this3.listenTo(subview, eventName, _this3[methodName]);
       });
     },
 
@@ -117,14 +123,15 @@
      */
     remove: function remove() {
       this.destroySubviews();
-      this.trigger("__remove__");
+      this.trigger('__remove__');
 
       // parent view could not have subview params, but shares .remove() method
       if (this.__subviewParams) {
 
         // remove: 'content' - empty content
-        if (this.__subviewParams.remove === "content") {
+        if (this.__subviewParams.remove === 'content') {
           this.undelegateEvents();
+          this.stopListening();
           this.$el.empty();
           return;
         }
@@ -132,12 +139,13 @@
         // remove: false - do not touch content
         if (this.__subviewParams.remove === false) {
           this.undelegateEvents();
+          this.stopListening();
           return;
         }
       }
 
       // Default remove
-      Backbone.View.prototype.remove.apply(this, arguments);
+      _Backbone.View.prototype.remove.apply(this, arguments);
     }
   };
 });

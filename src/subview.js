@@ -107,6 +107,7 @@ export default {
       // remove: 'content' - empty content
       if (this.__subviewParams.remove === 'content') {
         this.undelegateEvents();
+        this.stopListening();
         this.$el.empty();
         return;
       }
@@ -114,6 +115,7 @@ export default {
       // remove: false - do not touch content
       if (this.__subviewParams.remove === false) {
         this.undelegateEvents();
+        this.stopListening();
         return;
       }
     }
