@@ -14,12 +14,12 @@ describe('ChildMixin', function () {
      * @param  {Backbone.View} View Backbone view that has subviews
      * @return {Number}        Subviews count
      */
-    function subviewCount(View) {
-      if (!View.__subviews) {
+    function subviewCount(view) {
+      if (!view.__subviews) {
         return 0;
       }
 
-      return View.__subviews.length;
+      return view.__subviews.length;
     }
 
     beforeEach(() => {
@@ -64,8 +64,10 @@ describe('ChildMixin', function () {
 
       it('should correctly just provided subview', () => {
         view.destroySubviews(secondSubview);
+
         expect(secondSubview.remove).toHaveBeenCalled();
         expect(subview.remove).not.toHaveBeenCalled();
+        expect(subviewCount(view)).toBe(1);
       });
 
       it('should remove multiple subviews', () => {
@@ -73,12 +75,15 @@ describe('ChildMixin', function () {
 
         expect(subview.remove).toHaveBeenCalled();
         expect(secondSubview.remove).toHaveBeenCalled();
+        expect(subviewCount(view)).toBe(0);
       });
 
       it('should correctly destroy all subviews if no exact subview provided', () => {
         view.destroySubviews();
+
         expect(subview.remove).toHaveBeenCalled();
         expect(secondSubview.remove).toHaveBeenCalled();
+        expect(subviewCount(view)).toBe(0);
       });
     });
 

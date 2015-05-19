@@ -54,21 +54,14 @@ export default {
 
     // destroy all subviews
     if (_.isUndefined(subviews)) {
-      _.each(this.__subviews, (subview) => {
-        subview.remove();
-      });
-
-      return;
+      subviews = this.__subviews;
     }
 
     // destroy single subview
     if (!_.isArray(subviews)) {
-      this.__subviews = _.without(this.__subviews, subviews);
-      subviews.remove();
-      return;
+      subviews = [subviews];
     }
 
-    // destroy multiple subviews
     this.__subviews = _.difference(this.__subviews, subviews);
 
     _.each(subviews, (subview) => {
