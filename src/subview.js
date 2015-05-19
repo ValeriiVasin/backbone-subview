@@ -35,18 +35,43 @@ export default {
     return subview;
   },
 
-  destroySubviews(subview) {
+  /**
+   * Destroy subview(s)
+   *
+   * @param  {Backbone.View|Array} [subviews] Backbone subview(s) to remove
+   *                                          If not provided - all subviews will be removed
+   *
+   * @example
+   *
+   *   view.destroySubviews(subview);
+   *   view.destroySubviews([subviewOne, subviewTwo]);
+   *   view.destroySubviews();
+   */
+  destroySubviews(subviews) {
     if (!this.__subviews) {
       return;
     }
 
-    if (subview) {
-      this.__subviews = _.without(this.__subviews, subview);
-      subview.remove();
+    // destroy all subviews
+    if (_.isUndefined(subviews)) {
+      _.each(this.__subviews, (subview) => {
+        subview.remove();
+      });
+
       return;
     }
 
-    _.each(this.__subviews, (subview) => {
+    // destroy single subview
+    if (!_.isArray(subviews)) {
+      this.__subviews = _.without(this.__subviews, subviews);
+      subviews.remove();
+      return;
+    }
+
+    // destroy multiple subviews
+    this.__subviews = _.difference(this.__subviews, subviews);
+
+    _.each(subviews, (subview) => {
       subview.remove();
     });
   },

@@ -65,6 +65,14 @@ describe('ChildMixin', function () {
       it('should correctly just provided subview', () => {
         view.destroySubviews(secondSubview);
         expect(secondSubview.remove).toHaveBeenCalled();
+        expect(subview.remove).not.toHaveBeenCalled();
+      });
+
+      it('should remove multiple subviews', () => {
+        view.destroySubviews([subview, secondSubview]);
+
+        expect(subview.remove).toHaveBeenCalled();
+        expect(secondSubview.remove).toHaveBeenCalled();
       });
 
       it('should correctly destroy all subviews if no exact subview provided', () => {
