@@ -99,33 +99,39 @@ By default, using Backbone, you could `listenTo` view events only in direct pare
 var SearchView = View.extend({
   // listen to subviews events
   bubbleEvents: {
-    'userSearchResultSelected': 'onUserSearchResultSelected'
+    'UserSearchResult:selectUser': '_onUserSearchResultSelected'
   },
 
-  onUserSearchResultSelected: function(user) {
-    // do smth with user
+  _onUserSearchResultSelected: function(payload) {
+    // do smth with user `payload.user`
   }
 });
 
 // UserSearchResultView.js - deep nested view
 var UserSearchResultView = View.extend({
   events: {
-    'click': 'selectUser'
+    'click': '_onSearchResultClick'
   },
 
-  selectUser: function() {
+  _onSearchResultClick: function() {
     // trigger event that could be handled by any parent view
-    this.trigger('userSearchResultSelected', this.model.toJSON());
+    this.trigger('UserSearchResult:selectUser', { user: this.model });
   }
 });
 ```
 
 Using `bubbleEvents` allows you to listen to child events without extra pain. Child events will be automatically proxied to any parent view that requests them, like DOM events.
 
-It allows you to avoid event namespaces soup and makes views more isolated.
+It allows you from global event bus and makes views more isolated.
 
 **Notice:** Bubble events handlers will be automatically bound to `this` as usual Backbone events handlers.
+
 **Notice:** You should create all your subviews with `this.initSubview()`, otherwise child/parent channel will be lost and communication will not be possible.
+
+**Best practices**
+
+* It is better to prefix all your view events with the `View` namespace. It helps to understand from what nested subview the event is coming.
+* It is better to use object for the payload. This will allow to extend payload without any issues in the future.
 
 ## destroySubviews([Backbone.View|Array(Backbone.View)])
 You could manually destroy all instantiated subviews:
@@ -159,10 +165,12 @@ var ListView = View.extend({
     // destroy all subviews
     this.destroySubviews();
 
+    // render markup
     this.$el.html(
-      this.template(this.model.toJSON())
+      this.template({ item: this.model.toJSON() })
     );
 
+    // instantiate subview
     this.initSubview(ItemView, {
       el: this.$('.js-selector')
     });
