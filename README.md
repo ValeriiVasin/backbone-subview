@@ -18,7 +18,7 @@ bower install backbone-subview --save
 ```
 
 # Usage
-Extend your base view with `backbone-subview`:
+Extend base view with `backbone-subview`:
 
 ```js
 var Backbone = require('backbone');
@@ -39,7 +39,7 @@ Instantiate subviews inside the view, where:
 ```js
 // file: ListView.js
 
-// your base view
+// base view
 var View = require('lib/view');
 var ListItemView = require('./ListItem');
 
@@ -89,10 +89,10 @@ var ProfileView = View.extend({
 });
 ```
 
-When you instantiate all subviews this way - you could control their life cycle and properly remove all of them if view is destroyed.
+If all subviews are instantiated this way - it is possible to control their life cycle and properly remove all of them if view is destroyed.
 
 ## In-component communication
-By default, using Backbone, you could `listenTo` view events only in direct parent view. And it's not possible to listen to any nested subviews events deeper. With `backbone-subview` you could listen to any triggered child events using `bubbleEvents`.
+By default, using Backbone, it is possible to `listenTo` view events only in direct parent view. And it's not possible to listen to any nested subviews events deeper. With `backbone-subview` it is possible to listen to any triggered child events using `bubbleEvents`.
 
 ```js
 // Search.js
@@ -120,21 +120,21 @@ var UserSearchResultView = View.extend({
 });
 ```
 
-Using `bubbleEvents` allows you to listen to child events without extra pain. Child events will be automatically proxied to any parent view that requests them, like DOM events.
+`bubbleEvents` allows to listen to child events without extra pain. Child events will be automatically proxied to any parent view that requests them, like DOM events.
 
-It allows you from global event bus and makes views more isolated.
+Global event bus is not needed for in-component communication and views are more isolated.
 
 **Notice:** Bubble events handlers will be automatically bound to `this` as usual Backbone events handlers.
 
-**Notice:** You should create all your subviews with `this.initSubview()`, otherwise child/parent channel will be lost and communication will not be possible.
+**Notice:** All subviews should be created with `this.initSubview()`, otherwise child/parent channel will be lost and communication will not be possible.
 
 **Best practices**
 
-* It is better to prefix all your view events with the `View` namespace. It helps to understand from what nested subview the event is coming.
+* It is better to prefix all view events with the `View` namespace. It helps to understand from what nested subview the event is coming.
 * It is better to use object for the payload. This will allow to extend payload without any issues in the future.
 
 ## destroySubviews([Backbone.View|Array(Backbone.View)])
-You could manually destroy all instantiated subviews:
+Destroy all instantiated subviews:
 
 ```js
 this.destroySubviews();
@@ -178,4 +178,4 @@ var ListView = View.extend({
 });
 ```
 
-**Notice:** Subview will be automatically destroyed if you `remove()` parent view
+**Notice:** Subview will be automatically destroyed if `remove()` is called on parent view.
