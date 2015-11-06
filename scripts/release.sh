@@ -7,15 +7,15 @@ let readline = require('readline');
 let _exec = require('child_process').execSync;
 let path = require('path');
 
-const PROJECT_ROOT = path.resolve(__dirname, '..');
-const BOWER_CONFIG = path.resolve(PROJECT_ROOT, 'bower.json');
-const NPM_CONFIG = path.resolve(PROJECT_ROOT, 'package.json');
-
 let exec = (command) => {
   console.log(
     _exec(command, { encoding: 'utf8' })
   );
 }
+
+const PROJECT_ROOT = path.resolve(__dirname, '..');
+const BOWER_CONFIG = path.resolve(PROJECT_ROOT, 'bower.json');
+const NPM_CONFIG = path.resolve(PROJECT_ROOT, 'package.json');
 
 let ask = (question, callback) => {
   let rl = readline.createInterface({
