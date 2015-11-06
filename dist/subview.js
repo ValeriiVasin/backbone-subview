@@ -13,11 +13,11 @@
 })(this, function (exports, module, _backbone, _underscore) {
   'use strict';
 
-  var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-  var _Backbone = _interopRequire(_backbone);
+  var _Backbone = _interopRequireDefault(_backbone);
 
-  var _2 = _interopRequire(_underscore);
+  var _2 = _interopRequireDefault(_underscore);
 
   module.exports = {
     /**
@@ -29,13 +29,13 @@
     initSubview: function initSubview(View, options, params) {
       var _this = this;
 
-      if (_2.isNull(options) || _2.isUndefined(options)) {
+      if (_2['default'].isNull(options) || _2['default'].isUndefined(options)) {
         options = {};
       }
 
       var subview = new View(options);
 
-      if (!_2.isUndefined(params)) {
+      if (!_2['default'].isUndefined(params)) {
         subview.__subviewParams = params;
       }
 
@@ -44,7 +44,7 @@
       // remove reference from parent
       // Notice: .remove() has been already handled
       this.listenTo(subview, '__remove__', function () {
-        _this.__subviews = _2.without(_this.__subviews, subview);
+        _this.__subviews = _2['default'].without(_this.__subviews, subview);
       });
 
       if (!this.__subviews) {
@@ -73,18 +73,18 @@
       }
 
       // destroy all subviews
-      if (_2.isUndefined(subviews)) {
+      if (_2['default'].isUndefined(subviews)) {
         subviews = this.__subviews;
       }
 
       // destroy single subview
-      if (!_2.isArray(subviews)) {
+      if (!_2['default'].isArray(subviews)) {
         subviews = [subviews];
       }
 
-      this.__subviews = _2.difference(this.__subviews, subviews);
+      this.__subviews = _2['default'].difference(this.__subviews, subviews);
 
-      _2.each(subviews, function (subview) {
+      _2['default'].each(subviews, function (subview) {
         subview.remove();
       });
     },
@@ -92,27 +92,27 @@
     _setupEventProxy: function _setupEventProxy(subview) {
       var _this2 = this;
 
-      var current = _2.keys(this.bubbleEvents || {});
+      var current = _2['default'].keys(this.bubbleEvents || {});
       var parent = this.__parentBubbleEvents || [];
 
       // listen to subview events and proxy them to parent view
-      _2.each(parent, function (eventName) {
+      _2['default'].each(parent, function (eventName) {
         _this2.listenTo(subview, eventName, function () {
 
           // prepend eventName and trigger
-          var args = _2.toArray(arguments);
+          var args = _2['default'].toArray(arguments);
           args.unshift(eventName);
           this.trigger.apply(this, args);
         });
       });
 
       // set internal property
-      subview.__parentBubbleEvents = _2.union(current, parent);
+      subview.__parentBubbleEvents = _2['default'].union(current, parent);
 
       // Handle subviews of subview proxies
       // (if they was created during initialization)
       // because during initialization __parentBubbleEvents was not set
-      _2.each(subview.__subviews, function (subviewOfSubview) {
+      _2['default'].each(subview.__subviews, function (subviewOfSubview) {
         subview._setupEventProxy(subviewOfSubview);
       });
     },
@@ -131,7 +131,7 @@
       // setup proxy events
       this._setupEventProxy(subview);
 
-      _2.each(this.bubbleEvents, function (methodName, eventName) {
+      _2['default'].each(this.bubbleEvents, function (methodName, eventName) {
         _this3.listenTo(subview, eventName, _this3[methodName]);
       });
     },
@@ -163,7 +163,7 @@
       }
 
       // Default remove
-      _Backbone.View.prototype.remove.apply(this, arguments);
+      _Backbone['default'].View.prototype.remove.apply(this, arguments);
     }
   };
 });
