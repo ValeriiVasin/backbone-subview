@@ -68,11 +68,11 @@ let release = (version) => {
   exec(`
     git commit -am "Version ${version}"
 
-    git tag ${version}
+    git tag v${version}
     git tag latest -f
 
     git push origin master
-    git push origin ${version}
+    git push origin v${version}
     git push origin latest -f
   `);
 
