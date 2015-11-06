@@ -5,7 +5,8 @@
   "main": "dist/subview.js",
   "scripts": {
     "test": "node ./node_modules/karma/bin/karma start --single-run",
-    "dist": "node ./node_modules/babel/bin/babel --modules umd src/subview.js > dist/subview.js"
+    "dist": "node ./node_modules/babel/bin/babel --modules umd src/subview.js > dist/subview.js",
+    "release": "./scripts/release.sh"
   },
   "author": "Valerii Vasin",
   "license": "ISC",
