@@ -65,6 +65,10 @@ export default {
     this.__subviews = _.difference(this.__subviews, subviews);
 
     _.each(subviews, (subview) => {
+      if (!subview || !_.isFunction(subview.remove)) {
+        return;
+      }
+
       subview.remove();
     });
   },

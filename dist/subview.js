@@ -85,6 +85,10 @@
       this.__subviews = _2['default'].difference(this.__subviews, subviews);
 
       _2['default'].each(subviews, function (subview) {
+        if (!subview || !_2['default'].isFunction(subview.remove)) {
+          return;
+        }
+
         subview.remove();
       });
     },
