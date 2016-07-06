@@ -66,11 +66,27 @@ function testChildMixin(ChildMixin) {
           spyOn(subview, 'remove');
         });
 
-        it('should correctly just provided subview', () => {
+        it('should correctly remove just provided subview', () => {
           view.destroySubviews(secondSubview);
 
           expect(secondSubview.remove).toHaveBeenCalled();
           expect(subview.remove).not.toHaveBeenCalled();
+          expect(subviewCount(view)).toBe(1);
+        });
+
+        it('should not destroy any subviews if non-view was provided', () => {
+          view.destroySubviews(null);
+
+          expect(subview.remove).not.toHaveBeenCalled();
+          expect(secondSubview.remove).not.toHaveBeenCalled();
+          expect(subviewCount(view)).toBe(2);
+        });
+
+        it ('should ignore non-views if any are present in the array provided in multi-signature', () => {
+          view.destroySubviews([subview, null]);
+
+          expect(subview.remove).toHaveBeenCalled();
+          expect(secondSubview.remove).not.toHaveBeenCalled();
           expect(subviewCount(view)).toBe(1);
         });
 
